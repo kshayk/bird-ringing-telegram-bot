@@ -37,8 +37,8 @@ app.post(TELEGRAM_URI, async (req, res) => {
     return res.send('ok');
 });
 
-app.listen(process.env.PORT || 5000, async () => {
+app.listen(process.env.PORT || 3000, async () => {
     await TelegramBot.init();
-    console.log("App running on port 5000");
+    console.log("App running on port 3000");
 });
 

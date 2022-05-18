@@ -12,6 +12,10 @@ const TELEGRAM_URI = `/webhook/${TOKEN}`;
 const app = express();
 app.use(bodyParser.json());
 
+app.get('/test', (req, res) => {
+    res.send('Hello World!');
+});
+
 app.post(TELEGRAM_URI, async (req, res) => {
     console.log('body', req.body);
 

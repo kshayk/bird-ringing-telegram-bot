@@ -1,0 +1,6 @@
+node_modules
+dist
+.env
+/.idea/modules.xml
+/.idea/telegram.iml
+/.idea/vcs.xml

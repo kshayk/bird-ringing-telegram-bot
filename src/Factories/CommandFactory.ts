@@ -1,5 +1,6 @@
 import {ICommand} from "../commands/ICommand";
 import BirdCommand from "../commands/BirdCommand";
+import HelpCommand from "../commands/HelpCommand";
 
 class CommandFactory {
     static getCommand(commandName: string): ICommand | null {
@@ -10,7 +11,7 @@ class CommandFactory {
             case "ציפור":
                 return new BirdCommand();
             default:
-                return null
+                return new HelpCommand();
         }
     }
 }

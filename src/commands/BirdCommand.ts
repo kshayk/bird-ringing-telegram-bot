@@ -3,13 +3,15 @@ import TelegramBot from "../TelegramBot";
 import * as process from "process";
 import * as fs from "fs";
 
-const DUMMY_BIRD_DATA = [
-    [{text: "ציפור סבכי שחור כיפה"}],
-    [{text: "ציפור סבכי שחור ראש"}],
-    [{text: "ציפור סבכי אפור"}]
-]
-
 class BirdCommand implements ICommand {
+    private static letterSegments = [
+        {'start': 'א', 'end': 'י'},
+        {'start': 'כ', 'end': 'ע'},
+        {'start': 'פ', 'end': 'ת'},
+    ];
+
+    private static birdsPath = process.cwd() + '/birds';
+
     async execute(requestData: any): Promise<void> {
         let messageArray = requestData.message.text.split(" ");
 
@@ -17,10 +19,24 @@ class BirdCommand implements ICommand {
         let birdsPath = process.cwd() + '/birds';
 
         if (messageArray.length === 1) {
-            let files = fs.readdirSync(birdsPath)
-            let birdsList = BirdCommand.generateBirdList(files, 3);
+            await BirdCommand.sendFullBirdListOptions(requestData);
+            return;
+        }
 
-            await TelegramBot.sendMessage(requestData.message.chat.id, "אנא בחר את אחת מהציפורים כדי לקבל מידע עליה", birdsList);
+        if (messageArray[1] === "רשימה") {
+            if (!messageArray[2]) {
+                await BirdCommand.sendFullBirdListOptions(requestData);
+            }
+
+            let segmentedFiles = BirdCommand.getSegmentedFiles();
+
+            if (segmentedFiles[+messageArray[2] - 1]) {
+                let birdsList = BirdCommand.generateBirdList(segmentedFiles[messageArray[2] - 1], 3);
+                await TelegramBot.sendMessage(requestData.message.chat.id, "יש לבחור את הציפור המבוקשת מבין הרשימה.", birdsList);
+                return;
+            }
+
+            await TelegramBot.sendMessage(requestData.message.chat.id, "מספר הרשימה שנבחר לא קיים.");
             return;
         }
 
@@ -65,6 +81,33 @@ class BirdCommand implements ICommand {
         }
 
         return result;
+    }
+
+    private static breakListIntoSegments(birdFileNames : string[]) : any[] {
+        let segments = [];
+
+        for (let letterSegment of this.letterSegments) {
+            segments.push(birdFileNames.filter(file => {
+                return file.charAt(0) >= letterSegment.start && file.charAt(0) <= letterSegment.end;
+            }));
+        }
+
+        return segments;
+    }
+
+    private static async sendFullBirdListOptions(requestData: any) {
+        let files = fs.readdirSync(this.birdsPath)
+        let birdsSegments = BirdCommand.breakListIntoSegments(files);
+
+        let birdsList = BirdCommand.generateBirdList(birdsSegments, 1);
+
+        await TelegramBot.sendMessage(requestData.message.chat.id, "יש לבחור באפשרות מבין הרשימות. רשימה 1: א-י, רשימה 2: כ-ע, רשימה 3: פ-ת", birdsList);
+        return
+    }
+
+    private static getSegmentedFiles() : any[] {
+        let files = fs.readdirSync(this.birdsPath)
+        return BirdCommand.breakListIntoSegments(files);
     }
 }
 

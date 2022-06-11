@@ -103,6 +103,8 @@ class BirdCommand implements ICommand {
         for (let i = 0; i < this.letterSegments.length; i++) {
             message += "רשימה " + (i + 1) + ": " + this.letterSegments[i].start + "-" + this.letterSegments[i].end + ", ";
 
+            message = message.substring(0, message.length - 2);
+
             list.push([{text: "ציפור רשימה " + (i + 1)}]);
         }
 

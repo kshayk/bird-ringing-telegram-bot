@@ -26,6 +26,7 @@ class BirdCommand implements ICommand {
         if (messageArray[1] === "רשימה") {
             if (!messageArray[2]) {
                 await BirdCommand.sendFullBirdListOptions(requestData);
+                return;
             }
 
             let segmentedFiles = BirdCommand.getSegmentedFiles();
@@ -96,12 +97,16 @@ class BirdCommand implements ICommand {
     }
 
     private static async sendFullBirdListOptions(requestData: any) {
-        let files = fs.readdirSync(this.birdsPath)
-        let birdsSegments = BirdCommand.breakListIntoSegments(files);
+        let message = "יש לבחור באפשרות מבין הרשימות - ";
 
-        let birdsList = BirdCommand.generateBirdList(birdsSegments, 1);
+        let list = [];
+        for (let i = 0; i < this.letterSegments.length; i++) {
+            message += "רשימה " + (i + 1) + ": " + this.letterSegments[i].start + "-" + this.letterSegments[i].end + " ";
 
-        await TelegramBot.sendMessage(requestData.message.chat.id, "יש לבחור באפשרות מבין הרשימות. רשימה 1: א-י, רשימה 2: כ-ע, רשימה 3: פ-ת", birdsList);
+            list.push({text: "רשימה " + (i + 1)});
+        }
+
+        await TelegramBot.sendMessage(requestData.message.chat.id, message, list);
         return
     }
 

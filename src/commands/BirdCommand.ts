@@ -103,7 +103,7 @@ class BirdCommand implements ICommand {
         for (let i = 0; i < this.letterSegments.length; i++) {
             message += "רשימה " + (i + 1) + ": " + this.letterSegments[i].start + "-" + this.letterSegments[i].end + " ";
 
-            list.push({text: "רשימה " + (i + 1)});
+            list.push([{text: "רשימה " + (i + 1)}]);
         }
 
         await TelegramBot.sendMessage(requestData.message.chat.id, message, list);

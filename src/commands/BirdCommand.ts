@@ -96,18 +96,17 @@ class BirdCommand implements ICommand {
         return segments;
     }
 
-    private static async sendFullBirdListOptions(requestData: any) {
+    private static async sendFullBirdListOptions(requestData: any) : Promise<void> {
         let message = "יש לבחור באפשרות מבין הרשימות - ";
 
         let list = [];
         for (let i = 0; i < this.letterSegments.length; i++) {
-            message += "רשימה " + (i + 1) + ": " + this.letterSegments[i].start + "-" + this.letterSegments[i].end + ", ";
+            message += "רשימה " + (i + 1) + ": *" + this.letterSegments[i].start + "-" + this.letterSegments[i].end + "*, ";
 
             list.push([{text: "ציפור רשימה " + (i + 1)}]);
         }
 
         await TelegramBot.sendMessage(requestData.message.chat.id, message.substring(0, message.length - 2), list);
-        return
     }
 
     private static getSegmentedFiles() : any[] {

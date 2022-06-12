@@ -1,6 +1,7 @@
 import {ICommand} from "../commands/ICommand";
 import BirdCommand from "../commands/BirdCommand";
 import HelpCommand from "../commands/HelpCommand";
+import TermCommand from "../commands/TermCommand";
 
 class CommandFactory {
     static getCommand(commandName: string): ICommand | null {
@@ -10,6 +11,8 @@ class CommandFactory {
                 // return new TibuaCommand();
             case "ציפור":
                 return new BirdCommand();
+            case "מושג":
+                return new TermCommand();
             default:
                 return new HelpCommand();
         }

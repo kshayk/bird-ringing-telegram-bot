@@ -17,14 +17,10 @@ app.get('/test', (req, res) => {
 });
 
 app.post(TELEGRAM_URI, async (req, res) => {
-    console.log('body', req.body);
-
-    const {message} = req.body;
-    if (typeof message === 'undefined') {
+    const text = getCommandText(req.body);
+    if (!text) {
         return res.send('ok');
     }
-
-    const {text} = message;
 
     const messageArray = text.split(' ');
 
@@ -36,6 +32,18 @@ app.post(TELEGRAM_URI, async (req, res) => {
 
     return res.send('ok');
 });
+
+function getCommandText(requestData: any): string|null {
+    if (requestData.message && requestData.message.text) {
+        return requestData.message.text;
+    }
+
+    if (requestData.callback_query.data) {
+        return requestData.callback_query.data;
+    }
+
+    return null;
+}
 
 app.listen(process.env.PORT || 3000, async () => {
     await TelegramBot.init();

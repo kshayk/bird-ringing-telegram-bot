@@ -3,6 +3,7 @@ import TelegramBot from "../TelegramBot";
 import * as process from "process";
 import * as fs from "fs";
 import TextFilesUtil from "../Util/TextFilesUtil";
+import FireStoreConnection from "../DB/FireStoreConnection";
 
 class BirdCommand implements ICommand {
     private static letterSegments = [
@@ -54,9 +55,26 @@ class BirdCommand implements ICommand {
         }
 
         if (files.length === 1) {
-            // get contents of the file
+            const fileHash = TextFilesUtil.hashFileName(files[0]);
+            const connection = FireStoreConnection.getInstance();
+            const birdData = await connection.getData('birds', 'bird_' + fileHash);
+
+            let inlineKeyboard = null;
+            if (birdData) {
+                let birdTitles = birdData.data.map(bird => {
+                    return {title: bird.title, hash: fileHash}
+                });
+
+                if (birdTitles.length > 0) {
+                    inlineKeyboard = [];
+                    for (let birdTitle of birdTitles) {
+                        inlineKeyboard.push([{text: birdTitle.title, callback_data: `birdphoto ${birdTitle.hash}  ${birdTitle.title}`}]);
+                    }
+                }
+            }
+
             let fileContents = fs.readFileSync(BirdCommand.birdsPath + '/' + files[0], 'utf8');
-            await TelegramBot.sendMessage(requestData.message.chat.id, fileContents);
+            await TelegramBot.sendMessage(requestData.message.chat.id, fileContents, null, inlineKeyboard);
             return;
         }
 

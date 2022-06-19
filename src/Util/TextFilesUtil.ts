@@ -1,4 +1,5 @@
 import * as fs from "fs";
+import * as crypto from "crypto";
 
 class TextFilesUtil {
     public static generateFilesList(fileNames : string[], prefix : string = "", itemsInRow : number = 1): any[] {
@@ -14,6 +15,10 @@ class TextFilesUtil {
         }
 
         return result;
+    }
+
+    public static hashFileName(fileName : string) : string {
+        return crypto.createHash('md5').update(fileName).digest('hex');
     }
 }
 

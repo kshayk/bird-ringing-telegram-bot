@@ -1,7 +1,7 @@
 import axios from "axios";
 
 class TelegramBot {
-    static async sendMessage(chatId: number, text: string, keyboard?: {text: string}[][]) {
+    static async sendMessage(chatId: number, text: string, keyboard?: {text: string}[][], inlineKeyboard?: {text: string, callback_data: string}[][]) {
         const {TOKEN} = process.env;
         const TELEGRAM_API = `https://api.telegram.org/bot${TOKEN}`;
 
@@ -16,9 +16,25 @@ class TelegramBot {
                 keyboard,
                 one_time_keyboard: true
             }
+        } else if (inlineKeyboard) {
+            messageData["reply_markup"] = {
+                inline_keyboard: inlineKeyboard
+            }
         }
 
         await axios.post(`${TELEGRAM_API}/sendMessage`, messageData);
+    }
+
+    static async sendMediaGroup(chatId: number, media: {type: string, media: string}[]) {
+        const {TOKEN} = process.env;
+        const TELEGRAM_API = `https://api.telegram.org/bot${TOKEN}`;
+
+        let messageData = {
+            chat_id: chatId,
+            media,
+        }
+
+        await axios.post(`${TELEGRAM_API}/sendMediaGroup`, messageData);
     }
 
     static async init() {

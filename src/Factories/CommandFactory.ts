@@ -2,6 +2,7 @@ import {ICommand} from "../commands/ICommand";
 import BirdCommand from "../commands/BirdCommand";
 import HelpCommand from "../commands/HelpCommand";
 import TermCommand from "../commands/TermCommand";
+import BirdPhotoCommand from "../commands/BirdPhotoCommand";
 
 class CommandFactory {
     static getCommand(commandName: string): ICommand | null {
@@ -13,6 +14,8 @@ class CommandFactory {
                 return new BirdCommand();
             case "מושג":
                 return new TermCommand();
+            case 'birdphoto':
+                return new BirdPhotoCommand();
             default:
                 return new HelpCommand();
         }

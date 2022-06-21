@@ -41,6 +41,15 @@ class FireStoreConnection {
             });
         });
     }
+
+    public setData(collection: string, doc: string, data: any): Promise<any> {
+        return new Promise((resolve, reject) => {
+            this.db.collection(collection).doc(doc).set(data).then(res => {
+                console.log("Document written. Response data: ", res);
+                resolve(true);
+            });
+        });
+    }
 }
 
 export default FireStoreConnection;

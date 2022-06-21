@@ -19,10 +19,7 @@ class TermCommand implements ICommand {
 
         let termName = messageArray.join("-");
 
-        let files = fs.readdirSync(TermCommand.termsPath).filter(file => file.startsWith(termName)).sort((a, b) => {
-            // sort by file name
-            return a.localeCompare(b);
-        });
+        let files = TextFilesUtil.getTermFiles(termName);
 
         if (files.length === 0) {
             await TelegramBot.sendMessage(requestData.message.chat.id, "המונח המבוקש לא נמצא");

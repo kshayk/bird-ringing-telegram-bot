@@ -4,6 +4,7 @@ import * as process from "process";
 import * as fs from "fs";
 import TextFilesUtil from "../Util/TextFilesUtil";
 import FireStoreConnection from "../DB/FireStoreConnection";
+import textFilesUtil from "../Util/TextFilesUtil";
 
 class BirdCommand implements ICommand {
     private static letterSegments = [
@@ -44,10 +45,7 @@ class BirdCommand implements ICommand {
 
         let birdName = messageArray.join("-");
 
-        let files = fs.readdirSync(BirdCommand.birdsPath).filter(file => file.startsWith(birdName)).sort((a, b) => {
-            // sort by file name
-            return a.localeCompare(b);
-        });
+        let files = textFilesUtil.getBirdFiles(birdName);
 
         if (files.length === 0) {
             await TelegramBot.sendMessage(requestData.message.chat.id, "הציפור המבוקשת לא נמצאה");

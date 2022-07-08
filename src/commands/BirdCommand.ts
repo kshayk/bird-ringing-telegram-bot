@@ -3,8 +3,8 @@ import TelegramBot from "../TelegramBot";
 import * as process from "process";
 import * as fs from "fs";
 import TextFilesUtil from "../Util/TextFilesUtil";
-import FireStoreConnection from "../DB/FireStoreConnection";
 import textFilesUtil from "../Util/TextFilesUtil";
+import BirdRepository from "../Repositories/BirdRepository";
 
 class BirdCommand implements ICommand {
     private static letterSegments = [
@@ -54,12 +54,11 @@ class BirdCommand implements ICommand {
 
         if (files.length === 1) {
             const fileHash = TextFilesUtil.hashFileName(files[0]);
-            const connection = FireStoreConnection.getInstance();
-            const birdData = await connection.getData('birds', 'bird_' + fileHash);
+            const birdData = await BirdRepository.getData('birds', 'bird_' + fileHash);
 
             let inlineKeyboard = null;
             if (birdData) {
-                let birdTitles = birdData.data.map(bird => {
+                let birdTitles = birdData.map(bird => {
                     return {title: bird.title, hash: fileHash}
                 });
 

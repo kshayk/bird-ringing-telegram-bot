@@ -1,6 +1,6 @@
 import {ICommand} from "./ICommand";
-import FireStoreConnection from "../DB/FireStoreConnection";
 import telegramBot from "../TelegramBot";
+import BirdRepository from "../Repositories/BirdRepository";
 
 class BirdPhotoCommand implements ICommand{
     async execute(requestData: any) : Promise<void> {
@@ -11,8 +11,7 @@ class BirdPhotoCommand implements ICommand{
         //from index 2 onwards is the bird name
         let birdName = messageArray.slice(2).join(" ").trim();
 
-        const connection = FireStoreConnection.getInstance();
-        const birdsData = await connection.getData('birds', 'bird_' + birdHash);
+        let birdsData = await BirdRepository.getData('birds', 'bird_' + birdHash);
 
         if (!birdsData) {
             throw new Error("Bird data not found for hash: " + birdHash);
@@ -20,7 +19,7 @@ class BirdPhotoCommand implements ICommand{
 
         let inputMediaPhotos = [];
         let description = null;
-        for (let birdData of birdsData.data) {
+        for (let birdData of birdsData) {
             if (birdData.title === birdName) {
                 description = birdData.description ?? null;
                 for (let birdImage of birdData.images) {

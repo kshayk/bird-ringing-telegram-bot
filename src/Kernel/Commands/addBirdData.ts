@@ -1,31 +1,19 @@
-import BirdDatabase from "./birdDatabase/BirdDatabase";
+import BirdDatabase from "./Databases/BirdDatabase";
 
 // TODO: Dont forget to change the birdKeyword and the data
 let data = [];
 data.push({
-    description: "בדיקה בדיקה",
+    description: "אצל שרקרקים צעירים בקיץ, נוכל להבחין בעין אדמדמה חומה (בניגוד לאדומה בוהקת אצל בוגרים) ושתי נוצות הזנב האמצעיות אשר שוות באורכן לשאר נוצות הזנב (בניגוד לבוגרים ששתי הנוצות המרכזיות ארוכות יותר מהשאר).",
     images: [
-        "https://res.cloudinary.com/ddx6dxcwf/image/upload/v1655618394/birds/reed-warbler/juvenile%20/%D7%A7%D7%A0%D7%99%D7%AA-%D7%A7%D7%98%D7%A0%D7%94-%D7%A6%D7%A2%D7%99%D7%A8-%D7%A2%D7%99%D7%9F_jlw91r.jpg",
-        "https://res.cloudinary.com/ddx6dxcwf/image/upload/v1655618394/birds/reed-warbler/juvenile%20/%D7%A7%D7%A0%D7%99%D7%AA-%D7%A7%D7%98%D7%A0%D7%94-%D7%A6%D7%A2%D7%99%D7%A8-%D7%A2%D7%99%D7%9F_jlw91r.jpg",
-        "https://res.cloudinary.com/ddx6dxcwf/image/upload/v1655618394/birds/reed-warbler/juvenile%20/%D7%A7%D7%A0%D7%99%D7%AA-%D7%A7%D7%98%D7%A0%D7%94-%D7%A6%D7%A2%D7%99%D7%A8-%D7%A2%D7%99%D7%9F_jlw91r.jpg",
+        "https://res.cloudinary.com/ddx6dxcwf/image/upload/v1657383798/birds/european-bee-eater/juvenile/PXL_20220709_072221462_oqhpj5.jpg",
+        "https://res.cloudinary.com/ddx6dxcwf/image/upload/v1657383796/birds/european-bee-eater/juvenile/PXL_20220709_072123446_fug1ef.jpg",
     ],
-    title: "פרט צעיר"
+    title: "צעיר בקיץ"
 });
 
-data.push({
-    description: "בדיקה בדיקה 2",
-    images: [
-        "https://res.cloudinary.com/ddx6dxcwf/image/upload/v1655618394/birds/reed-warbler/juvenile%20/%D7%A7%D7%A0%D7%99%D7%AA-%D7%A7%D7%98%D7%A0%D7%94-%D7%A6%D7%A2%D7%99%D7%A8-%D7%A2%D7%99%D7%9F_jlw91r.jpg",
-        "https://res.cloudinary.com/ddx6dxcwf/image/upload/v1655618394/birds/reed-warbler/juvenile%20/%D7%A7%D7%A0%D7%99%D7%AA-%D7%A7%D7%98%D7%A0%D7%94-%D7%A6%D7%A2%D7%99%D7%A8-%D7%A2%D7%99%D7%9F_jlw91r.jpg",
-        "https://res.cloudinary.com/ddx6dxcwf/image/upload/v1655618394/birds/reed-warbler/juvenile%20/%D7%A7%D7%A0%D7%99%D7%AA-%D7%A7%D7%98%D7%A0%D7%94-%D7%A6%D7%A2%D7%99%D7%A8-%D7%A2%D7%99%D7%9F_jlw91r.jpg",
-    ],
-    title: "פרט בוגר",
-    sfdsd: 'sdfs'
-});
-
-const birdName = "קנית בצרה";
-const birdNameEn = "Basra Reed Warbler";
-const birdKeyWord = "קנית-בצרה";
+const birdName = "שרקרק מצוי";
+const birdNameEn = "European Bee Eater";
+const birdKeyWord = "שרקרק-מצוי";
 
 new BirdDatabase(birdKeyWord).addNewBird({birdName, birdNameEn, data});
 

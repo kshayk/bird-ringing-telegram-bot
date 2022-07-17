@@ -37,6 +37,25 @@ class TelegramBot {
         await axios.post(`${TELEGRAM_API}/sendMediaGroup`, messageData);
     }
 
+    static async sendPhoto(chatId: number, photo: string, caption?: string, inlineKeyboard?: {text: string, callback_data: string}[][]) {
+        const {TOKEN} = process.env;
+        const TELEGRAM_API = `https://api.telegram.org/bot${TOKEN}`;
+
+        let messageData = {
+            chat_id: chatId,
+            photo,
+            caption,
+        }
+
+        if (inlineKeyboard) {
+            messageData["reply_markup"] = {
+                inline_keyboard: inlineKeyboard
+            }
+        }
+
+        await axios.post(`${TELEGRAM_API}/sendPhoto`, messageData);
+    }
+
     static async init() {
         const {TOKEN, PUBLIC_URL} = process.env;
         const TELEGRAM_URI = `/webhook/${TOKEN}`;

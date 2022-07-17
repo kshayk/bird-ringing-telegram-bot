@@ -12,7 +12,7 @@ class CommandFactory {
                 // return new TibuaCommand();
             case "ציפור":
                 return new BirdCommand();
-            case "מושג":
+            case "מונח":
                 return new TermCommand();
             case 'birdphoto':
                 return new BirdPhotoCommand();
